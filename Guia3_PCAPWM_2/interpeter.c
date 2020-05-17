@@ -20,7 +20,6 @@ bit StringCompare(char str1[BUFFERSIZE], char str2[BUFFERSIZE]) {
 		return 1;
 	else
 		return 0;
-		//teste
 }
 
 bit Interpeter() {
