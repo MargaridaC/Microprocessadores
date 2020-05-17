@@ -1,0 +1,215 @@
+C51 COMPILER V9.60.0.0   UART                                                              05/13/2020 10:58:27 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN .\Objects\uart.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE uart.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\uart
+                    -.lst) TABS(2) OBJECT(.\Objects\uart.obj)
+
+line level    source
+
+   1          #pragma large
+   2          
+   3          #include "uart.h"
+   4          #include <REG51F380.H>
+   5          #include <stdio.h>
+   6          
+   7          #define DEBUG 1
+   8          #define EMPTY 95
+   9          
+  10          char ReadQ = 0;
+  11          char func = 255;
+  12          char i;
+  13          
+  14          unsigned char letrinha = 0;
+  15          char DutyCycle100 = 50;
+  16          char DutyCycle255 = 128;
+  17          int Recieved = 0;
+  18          int RecievedAnt = 0;
+  19          unsigned char UARTBuffer[8];
+  20          bit flagTrama = 0, TramaCompleta = 0;
+  21          int Read = 0;
+  22          unsigned char UARTBufferindex = 0;
+  23          unsigned char UARTFunction[8];
+  24          
+  25          void encode () {
+  26   1            DebugPrint();
+  27   1            DutyCheck();
+  28   1            if (TramaCompleta == 1)
+  29   1              ReadUARTBuff();
+  30   1            if (flagTrama == 1) {
+  31   2              ApplyFunction();
+  32   2              Reset();
+  33   2            }
+  34   1      }
+  35          
+  36          void Reset() {
+  37   1        flagTrama = 0;
+  38   1        Recieved = 0;
+  39   1        UARTBufferindex = 0;
+  40   1        Read = 0;
+  41   1        for (i = 0; i < 8; i++) {
+  42   2          UARTFunction[i] = EMPTY;
+  43   2          UARTBuffer[i] = EMPTY;
+  44   2        }
+  45   1      }
+  46          
+  47          char StringCompare(const char str1[8],const  char str2[8]) {
+  48   1        char c = 0;
+  49   1        for (i = 0; i <= (int)(str2[1] - 47); i++)
+  50   1          c += (str1[i] != str2[i]) ? 1 : 0;
+  51   1        return (c == 0 ? 1 : 0);
+  52   1      }
+  53          
+  54          void ApplyFunction() {
+C51 COMPILER V9.60.0.0   UART                                                              05/13/2020 10:58:27 PAGE 2   
+
+  55   1      
+  56   1        if (StringCompare(UARTFunction, "T5D OFF")) {
+  57   2          printf("PWM OFF \n");
+  58   2        } else if (StringCompare(UARTFunction, "T4D ON")) {
+  59   2          printf("PWM ON \n");
+  60   2        } else if (StringCompare(UARTFunction, "T3D ?")) {
+  61   2          printf("\nDutyCycle: %d \%\n", (short)DutyCycle100);
+  62   2        } else if (StringCompare(UARTFunction, "T3D +")) {
+  63   2          DutyCycle100++;
+  64   2        } else if (StringCompare(UARTFunction, "T3D -")) {
+  65   2          DutyCycle100--;
+  66   2        } else if (UARTFunction[4] <= 57 && UARTFunction[4] >= 48) {
+  67   2          if(UARTFunction[1] == 51)
+  68   2            DutyCycle100 = (short)(UARTFunction[4]-48);
+  69   2          else if(UARTFunction[1] == 53)
+  70   2            DutyCycle100 = 100;
+  71   2          else
+  72   2            DutyCycle100 = (short)(UARTFunction[4]-48)*10 + (UARTFunction[5]-48);
+  73   2        }
+  74   1      }
+  75          
+  76          void AddToUARTBuff(char add) {
+  77   1        UARTBuffer[UARTBufferindex] = add;
+  78   1        UARTBufferindex++;
+  79   1        UARTBufferindex &= 8-1;
+  80   1      }
+  81          
+  82          void ReadUARTBuff() {
+  83   1        char ReadIndex = 0;
+  84   1        char count = 0, i = 0, TramaSize = 0;
+  85   1        char vec[8];
+  86   1        unsigned char rcv;
+  87   1      
+  88   1        printf("\n");
+  89   1        while(ReadIndex < Read)  {
+  90   2          TramaCompleta = 0;
+  91   2          rcv=UARTBuffer[ReadIndex];
+  92   2          ReadIndex++;
+  93   2          if(count==0 && (rcv==84 || rcv ==116)) {
+  94   3            vec[count]=rcv;
+  95   3            count++;
+  96   3          }
+  97   2          else if(count==1)  {
+  98   3            vec[count]=rcv;
+  99   3            TramaSize = rcv - 48;
+ 100   3            count++;
+ 101   3          }
+ 102   2          else if(count>0) {
+ 103   3            vec[count]=rcv;
+ 104   3            count++;
+ 105   3            if(count>=(TramaSize+3)) {
+ 106   4              count=0;
+ 107   4              if(vec[TramaSize+2]==13 && flagTrama==0) {
+ 108   5                  for(i=0;i<=TramaSize+2;i++) {
+ 109   6                    UARTFunction[i]=vec[i];
+ 110   6                  }
+ 111   5                  flagTrama=1;
+ 112   5              } else
+ 113   4                printf("Comando Errado ou Inexistente\n");
+ 114   4            }
+ 115   3          }
+ 116   2        }
+C51 COMPILER V9.60.0.0   UART                                                              05/13/2020 10:58:27 PAGE 3   
+
+ 117   1        ConvertToCapital(UARTFunction);
+ 118   1      }
+ 119          
+ 120          void ConvertToCapital(char *str) {
+ 121   1          char i = 0;
+ 122   1          while(str[i] != '\0') {
+ 123   2            str[i] -= (str[i] <= 172 && str[i] >= 97) ? 32 : 0;
+ 124   2            i++;
+ 125   2          }
+ 126   1      }
+ 127          
+ 128          void DutyCheck() {
+ 129   1            if(DutyCycle100 > 100)
+ 130   1              DutyCycle100 = 100;
+ 131   1            if(DutyCycle100 < 0)
+ 132   1              DutyCycle100 = 0;
+ 133   1            DutyCycle255 = (int)DutyCycle100*2.55;
+ 134   1            if (PCA0CPH0 != DutyCycle255) {
+ 135   2              PCA0CPH0 = DutyCycle255;
+ 136   2              printf("\nDutyCycle: %d \%\n", (short)DutyCycle100);
+ 137   2            }
+ 138   1      }
+ 139          //mt estranho!
+ 140          void getkey ()  interrupt 4{
+ 141   1        if (RI0 == 1) {
+ 142   2          RI0 = 0;
+ 143   2          letrinha = SBUF0;
+ 144   2          if (letrinha != 8) {
+ 145   3            AddToUARTBuff(letrinha);
+ 146   3            Recieved++;
+ 147   3            if (letrinha == 13) {
+ 148   4              Read = Recieved;
+ 149   4              Recieved = 0;
+ 150   4              UARTBufferindex = 0;
+ 151   4              TramaCompleta = 1;
+ 152   4            }
+ 153   3          } else {
+ 154   3            Recieved --;
+ 155   3            UARTBufferindex--;
+ 156   3            if(Recieved < 0)
+ 157   3              Recieved = 0;
+ 158   3            if(UARTBufferindex < 0 || UARTBufferindex == 255)
+ 159   3              UARTBufferindex = 0;
+ 160   3            UARTBuffer[UARTBufferindex] = EMPTY;
+ 161   3          }
+ 162   2      
+ 163   2        }
+ 164   1        if (TI0 == 1) {
+ 165   2            TI0 = 0;
+ 166   2        }
+ 167   1      }
+ 168          /*
+ 169          void DutyChange(char change, bit what) {
+ 170            DutyCycle100 = (what == 1 ? (DutyCycle100 + change) : change);
+ 171          }
+ 172          */
+ 173          void DebugPrint() {
+ 174   1      
+ 175   1            if (Recieved != RecievedAnt && DEBUG) {
+ 176   2              printf("\n");
+ 177   2              for (i = 0; i < 8; i++)
+ 178   2                if(UARTBuffer[i] != 13)
+C51 COMPILER V9.60.0.0   UART                                                              05/13/2020 10:58:27 PAGE 4   
+
+ 179   2                  printf("%c ", UARTBuffer[i]);
+ 180   2                else
+ 181   2                  printf("\\n ");
+ 182   2              RecievedAnt = Recieved;
+ 183   2            }
+ 184   1      
+ 185   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1989    ----
+   CONSTANT SIZE    =    111    ----
+   XDATA SIZE       =     54    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

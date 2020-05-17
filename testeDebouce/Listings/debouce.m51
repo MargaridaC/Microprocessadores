@@ -1,0 +1,231 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    03/22/2020  01:42:02  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\dd.obj TO .\Objects\debouce PRINT (.\Listings\debouce.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\dd.obj (DD)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\debouce (DD)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0008H     UNIT         ?DT?DD
+            REG     0010H     0008H     ABSOLUTE     "REG BANK 2"
+                    0018H     0008H                  *** GAP ***
+            BIT     0020H.0   0000H.4   UNIT         ?BI?DD
+            BIT     0020H.4   0000H.1   UNIT         ?BI?MAIN?DD
+                    0020H.5   0000H.3                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     07F2H                  *** GAP ***
+            CODE    0800H     00DAH     UNIT         ?PR?ISR_TIMER0?DD
+            CODE    08DAH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0966H     005CH     UNIT         ?PR?MAIN?DD
+            CODE    09C2H     0019H     UNIT         ?C_INITSEG
+            CODE    09DBH     0012H     UNIT         ?PR?TIMER0_INIT?DD
+            CODE    09EDH     0010H     UNIT         ?CO?DD
+            CODE    09FDH     000DH     UNIT         ?PR?OSCILLATOR_INIT?DD
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\debouce (DD)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?DD
+  +--> ?C_INITSEG
+
+?PR?MAIN?DD
+  +--> ?PR?OSCILLATOR_INIT?DD
+  +--> ?PR?TIMER0_INIT?DD
+  +--> ?CO?DD
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/22/2020  01:42:02  PAGE 2
+
+
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\debouce (DD)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        DD
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  C:0800H         PUBLIC        ISR_TIMER0
+  D:00E8H         PUBLIC        ADC0CN
+  D:00A8H         PUBLIC        IE
+  B:0080H.6       PUBLIC        P0_6
+  B:0080H.7       PUBLIC        P0_7
+  C:09EDH         PUBLIC        array_digit
+  D:00D9H         PUBLIC        PCA0MD
+  D:00D8H         PUBLIC        PCA0CN
+  D:00B8H         PUBLIC        IP
+  C:09FDH         PUBLIC        Oscillator_Init
+  D:000EH         PUBLIC        index
+  D:00E2H         PUBLIC        XBR1
+  D:00C0H         PUBLIC        SMB0CN
+  D:00C0H         PUBLIC        SMB1CN
+  C:0966H         PUBLIC        main
+  C:09DBH         PUBLIC        Timer0_Init
+  D:00F8H         PUBLIC        SPI0CN
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        TMR2CN
+  D:00C8H         PUBLIC        TMR5CN
+  D:00A9H         PUBLIC        CLKSEL
+  B:0020H.0       PUBLIC        PB1_state
+  B:0020H.1       PUBLIC        PB2_state
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  D:0098H         PUBLIC        SCON0
+  D:008EH         PUBLIC        CKCON
+  D:00B6H         PUBLIC        FLSCL
+  B:0020H.2       PUBLIC        PB1_state_N
+  B:0020H.3       PUBLIC        PB2_state_N
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          OSCILLATOR_INIT
+  C:09FDH         LINE#         24
+  C:09FDH         LINE#         26
+  C:09FDH         LINE#         27
+  C:0A00H         LINE#         28
+  C:0A03H         LINE#         29
+  C:0A06H         LINE#         30
+  C:0A09H         LINE#         31
+  -------         ENDPROC       OSCILLATOR_INIT
+  -------         PROC          TIMER0_INIT
+  C:09DBH         LINE#         33
+  C:09DBH         LINE#         36
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/22/2020  01:42:02  PAGE 3
+
+
+  C:09DBH         LINE#         38
+  C:09DEH         LINE#         39
+  C:09E1H         LINE#         40
+  C:09E4H         LINE#         41
+  C:09E7H         LINE#         42
+  C:09EAH         LINE#         43
+  C:09ECH         LINE#         44
+  -------         ENDPROC       TIMER0_INIT
+  -------         PROC          ISR_TIMER0
+  -------         DO            
+  D:0008H         SYMBOL        contador
+  D:000AH         SYMBOL        d_PB1
+  D:000CH         SYMBOL        d_PB2
+  -------         ENDDO         
+  C:0800H         LINE#         46
+  C:0807H         LINE#         51
+  C:080BH         LINE#         52
+  C:080FH         LINE#         57
+  C:0823H         LINE#         58
+  C:0823H         LINE#         59
+  C:0829H         LINE#         60
+  C:082CH         LINE#         61
+  C:082CH         LINE#         62
+  C:083EH         LINE#         63
+  C:083EH         LINE#         64
+  C:084EH         LINE#         65
+  C:0850H         LINE#         66
+  C:0852H         LINE#         68
+  C:0852H         LINE#         69
+  C:0856H         LINE#         70
+  C:0856H         LINE#         71
+  C:0858H         LINE#         73
+  C:0858H         LINE#         74
+  C:0867H         LINE#         75
+  C:0867H         LINE#         76
+  C:0877H         LINE#         77
+  C:0879H         LINE#         78
+  C:087BH         LINE#         80
+  C:087BH         LINE#         81
+  C:087FH         LINE#         82
+  C:087FH         LINE#         83
+  C:087FH         LINE#         86
+  C:0882H         LINE#         87
+  C:0882H         LINE#         88
+  C:0894H         LINE#         89
+  C:0894H         LINE#         90
+  C:08A4H         LINE#         91
+  C:08A6H         LINE#         92
+  C:08A8H         LINE#         94
+  C:08A8H         LINE#         95
+  C:08ACH         LINE#         96
+  C:08ACH         LINE#         97
+  C:08AEH         LINE#         99
+  C:08AEH         LINE#         100
+  C:08BDH         LINE#         101
+  C:08BDH         LINE#         102
+  C:08CDH         LINE#         103
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/22/2020  01:42:02  PAGE 4
+
+
+  C:08CFH         LINE#         104
+  C:08D1H         LINE#         106
+  C:08D1H         LINE#         107
+  C:08D5H         LINE#         108
+  C:08D5H         LINE#         109
+  C:08D5H         LINE#         110
+  C:08D5H         LINE#         111
+  -------         ENDPROC       ISR_TIMER0
+  -------         PROC          MAIN
+  -------         DO            
+  B:0020H.4       SYMBOL        update_disp
+  -------         ENDDO         
+  C:0966H         LINE#         114
+  C:0966H         LINE#         115
+  C:0966H         LINE#         116
+  C:0968H         LINE#         119
+  C:096BH         LINE#         120
+  C:096EH         LINE#         121
+  C:0971H         LINE#         124
+  C:0971H         LINE#         125
+  C:0971H         LINE#         126
+  C:0977H         LINE#         127
+  C:0977H         LINE#         128
+  C:097FH         LINE#         129
+  C:0987H         LINE#         130
+  C:0989H         LINE#         131
+  C:0989H         LINE#         132
+  C:098FH         LINE#         133
+  C:098FH         LINE#         135
+  C:0997H         LINE#         136
+  C:099FH         LINE#         137
+  C:09A1H         LINE#         138
+  C:09A1H         LINE#         139
+  C:09A4H         LINE#         140
+  C:09A4H         LINE#         141
+  C:09A6H         LINE#         143
+  C:09BFH         LINE#         144
+  C:09BFH         LINE#         145
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        DD
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0180H BYTE (18%) *
+******************************************************************************
+
+Program Size: data=25.5 xdata=0 code=528
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,186 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    02/24/2020  13:18:15  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\hello.obj TO .\Objects\hello_world PRINT (.\Listings\hello_world.m51) RAMSIZE (256
+>> )
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\hello.obj (HELLO)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?ILDOPTR)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\hello_world (HELLO)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0005H     UNIT         ?DT?_IMPRIME_ARRAY?HELLO
+            DATA    000DH     0005H     UNIT         ?DT?HELLO
+            IDATA   0012H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     008CH     UNIT         ?C_C51STARTUP
+            CODE    088CH     0046H     UNIT         ?PR?MAIN?HELLO
+            CODE    08D2H     0038H     UNIT         ?C?LIB_CODE
+            CODE    090AH     0030H     UNIT         ?PR?_IMPRIME_ARRAY?HELLO
+            CODE    093AH     0020H     UNIT         ?CO?HELLO
+            CODE    095AH     0017H     UNIT         ?PR?UART_INIT?HELLO
+            CODE    0971H     000DH     UNIT         ?PR?OSCILLATOR_INIT?HELLO
+            CODE    097EH     000DH     UNIT         ?PR?LER_CARACTER?HELLO
+            CODE    098BH     000CH     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\hello_world (HELLO)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?HELLO
+  +--> ?C_INITSEG
+
+?PR?MAIN?HELLO
+  +--> ?PR?OSCILLATOR_INIT?HELLO
+  +--> ?PR?UART_INIT?HELLO
+  +--> ?CO?HELLO
+  +--> ?PR?_IMPRIME_ARRAY?HELLO
+  +--> ?PR?LER_CARACTER?HELLO
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  02/24/2020  13:18:15  PAGE 2
+
+
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\hello_world (HELLO)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        HELLO
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  C:093AH         PUBLIC        array_digits
+  D:00E8H         PUBLIC        ADC0CN
+  D:00A8H         PUBLIC        IE
+  B:0080H.6       PUBLIC        P0_6
+  B:0080H.7       PUBLIC        P0_7
+  D:00D9H         PUBLIC        PCA0MD
+  D:00D8H         PUBLIC        PCA0CN
+  D:00B8H         PUBLIC        IP
+  C:0971H         PUBLIC        Oscillator_Init
+  D:000DH         PUBLIC        updateDisp
+  D:000EH         PUBLIC        letra
+  D:0010H         PUBLIC        index
+  D:00E1H         PUBLIC        XBR0
+  D:00E2H         PUBLIC        XBR1
+  D:00C0H         PUBLIC        SMB0CN
+  D:00C0H         PUBLIC        SMB1CN
+  C:088CH         PUBLIC        main
+  D:00F8H         PUBLIC        SPI0CN
+  C:095AH         PUBLIC        UART_Init
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        TMR2CN
+  D:00C8H         PUBLIC        TMR5CN
+  D:00A9H         PUBLIC        CLKSEL
+  B:0098H.0       PUBLIC        RI0
+  B:0098H.1       PUBLIC        TI0
+  D:008DH         PUBLIC        TH1
+  B:0088H.6       PUBLIC        TR1
+  C:090AH         PUBLIC        _imprime_Array
+  D:0099H         PUBLIC        SBUF0
+  D:0098H         PUBLIC        SCON0
+  C:097EH         PUBLIC        ler_caracter
+  D:008EH         PUBLIC        CKCON
+  D:00B6H         PUBLIC        FLSCL
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          OSCILLATOR_INIT
+  C:0971H         LINE#         12
+  C:0971H         LINE#         13
+  C:0974H         LINE#         14
+  C:0977H         LINE#         15
+  C:097AH         LINE#         16
+  C:097DH         LINE#         17
+  -------         ENDPROC       OSCILLATOR_INIT
+  -------         PROC          UART_INIT
+  C:095AH         LINE#         19
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  02/24/2020  13:18:15  PAGE 3
+
+
+  C:095AH         LINE#         20
+  C:095DH         LINE#         21
+  C:0960H         LINE#         22
+  C:0963H         LINE#         23
+  C:0966H         LINE#         24
+  C:0969H         LINE#         25
+  C:096CH         LINE#         26
+  C:096EH         LINE#         27
+  C:0970H         LINE#         28
+  -------         ENDPROC       UART_INIT
+  -------         PROC          _IMPRIME_ARRAY
+  D:0008H         SYMBOL        p_buff
+  D:000BH         SYMBOL        index
+  C:090AH         LINE#         30
+  C:0914H         LINE#         31
+  C:091AH         LINE#         32
+  C:0939H         LINE#         33
+  -------         ENDPROC       _IMPRIME_ARRAY
+  -------         PROC          LER_CARACTER
+  C:097EH         LINE#         35
+  C:097EH         LINE#         36
+  C:0981H         LINE#         37
+  C:0986H         LINE#         39
+  C:098AH         LINE#         40
+  -------         ENDPROC       LER_CARACTER
+  -------         PROC          MAIN
+  C:088CH         LINE#         45
+  C:088CH         LINE#         46
+  C:088FH         LINE#         47
+  C:0892H         LINE#         49
+  C:0892H         LINE#         50
+  C:0895H         LINE#         51
+  C:0898H         LINE#         52
+  C:08A0H         LINE#         53
+  C:08A3H         LINE#         54
+  C:08A3H         LINE#         55
+  C:08A6H         LINE#         56
+  C:08A9H         LINE#         57
+  C:08B1H         LINE#         58
+  C:08B4H         LINE#         59
+  C:08B4H         LINE#         60
+  C:08B8H         LINE#         61
+  C:08BBH         LINE#         62
+  C:08C8H         LINE#         63
+  C:08C8H         LINE#         64
+  C:08CFH         LINE#         65
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        HELLO
+
+  -------         MODULE        ?C?ILDOPTR
+  C:08D2H         PUBLIC        ?C?ILDOPTR
+  -------         ENDMOD        ?C?ILDOPTR
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 00D2H BYTE (10%) *
+******************************************************************************
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  02/24/2020  13:18:15  PAGE 4
+
+
+Program Size: data=19.0 xdata=0 code=410
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

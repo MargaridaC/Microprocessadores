@@ -1,0 +1,3 @@
+".\Objects\dd.obj" 
+TO ".\Objects\debouce" 
+PRINT(".\Listings\debouce.m51") RAMSIZE(256) 

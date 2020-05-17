@@ -1,0 +1,3 @@
+".\Objects\Guia2.obj" 
+TO ".\Objects\GuiaFechadura" 
+PRINT(".\Listings\GuiaFechadura.m51") RAMSIZE(256) 

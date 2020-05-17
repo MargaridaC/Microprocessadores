@@ -1,0 +1,3 @@
+".\Objects\gg.obj" 
+TO ".\Objects\invimorty" 
+PRINT(".\Listings\invimorty.m51") RAMSIZE(256) 

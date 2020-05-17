@@ -1,0 +1,121 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              04/10/2020 10:57:00 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REG51F380.H>
+   2          #include "elock.h"
+   3          #include "debounce.h"
+   4          
+   5          #define T0_QAUNTUM 250;
+   6          #define DEBOUNCE_TIME (24000/250)
+   7          
+   8          bit DKLOAD,DKLOAD_LAST;
+   9          bit DKSET,DKSET_LAST;
+  10          
+  11          virt_key_t key_set;
+  12          virt_key_t key_load;
+  13          
+  14          unsigned char debounce_vtime;
+  15          
+  16          void Timer0 ( void ) interrupt 1 {
+  17   1      
+  18   1        if(debounce_vtime-- == 0){
+  19   2          debounce_vtime = DEBOUNCE_TIME;
+  20   2          DKSET_LAST = DKSET;
+  21   2          DKSET = my_debounce(&key_set);
+  22   2          
+  23   2          DKLOAD_LAST = DKLOAD;
+  24   2          DKLOAD = my_debounce(&key_load);
+  25   2          
+  26   2          if(!DKLOAD && DKLOAD_LAST)
+  27   2            FLOAD = 1;
+  28   2          
+  29   2          if(!DKSET && DKSET_LAST)
+  30   2            FSET = 1;
+  31   2        }
+  32   1      }
+  33          
+  34          void Init_Device( void )
+  35          {
+  36   1        PCA0MD = 0;
+  37   1        FLSCL = 0x90;
+  38   1        CLKSEL = 0x03;
+  39   1      
+  40   1        XBR0 = 0x01;
+  41   1        XBR1 = 0x40;
+  42   1      
+  43   1        debounce_vtime = DEBOUNCE_TIME;
+  44   1        TMOD  =   TMOD  | 0x02;
+  45   1        CKCON =   CKCON | 0x02;
+  46   1        TH0   =   -T0_QAUNTUM;
+  47   1        TL0   =   -T0_QAUNTUM;
+  48   1        IE    =   0x8A;
+  49   1        TR0   =   1;
+  50   1        TMOD  =   TMOD  | 0x20;
+  51   1        TH1   =   -250;         //para um periodo de onda de 10ms x 100 para 1 sec
+  52   1        TL1   =   -250;
+  53   1        TR1   =   0;
+  54   1        count = 100;
+C51 COMPILER V9.60.0.0   MAIN                                                              04/10/2020 10:57:00 PAGE 2   
+
+  55   1        
+  56   1        key_set.key_window.window = 0x00ff;
+  57   1        key_set.count_ones=8;
+  58   1        key_set.bit_offset = 6;
+  59   1      
+  60   1        key_load.key_window.window = 0x00ff;
+  61   1        key_load.count_ones=8;
+  62   1        key_load.bit_offset = 7;
+  63   1        
+  64   1        DKLOAD=1;
+  65   1        DKLOAD_LAST=1;
+  66   1        
+  67   1        DKSET = 1;
+  68   1        DKSET_LAST = 1;
+  69   1        
+  70   1      }
+  71          
+  72          void main( void ) {
+  73   1        
+  74   1        Init_Device();
+  75   1        init_fsm();
+  76   1        encode_fsm();
+  77   1      
+  78   1        while(1) {
+  79   2          if(FLOAD){
+  80   3            TR1 = 0;
+  81   3            encode_fsm();
+  82   3            TR0=0;
+  83   3              FLOAD =0;
+  84   3            TR0=1;
+  85   3          }
+  86   2          
+  87   2          if(FSET){
+  88   3            TR1 = 0;
+  89   3            encode_fsm();
+  90   3            TR0=0;
+  91   3              FSET =0;
+  92   3            TR0=1;
+  93   3          }
+  94   2        }
+  95   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    240    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      4    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

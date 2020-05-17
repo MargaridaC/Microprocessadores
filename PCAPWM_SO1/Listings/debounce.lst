@@ -1,0 +1,41 @@
+C51 COMPILER V9.60.0.0   DEBOUNCE                                                          04/27/2020 19:07:10 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE DEBOUNCE
+OBJECT MODULE PLACED IN .\Objects\debounce.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE debounce.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -debounce.lst) TABS(2) OBJECT(.\Objects\debounce.obj)
+
+line level    source
+
+   1          #include "debounce.h"
+   2          #include <REG51F380.H>
+   3          
+   4          bit my_debounce( virt_key_t* p_key) {
+   5   1        char result;
+   6   1        char pin = (P0 >> p_key->bit_offset) & 1;
+   7   1          
+   8   1        p_key->key_window.window <<=1;
+   9   1        p_key->key_window.b[1]|=pin;
+  10   1        p_key->count_ones += pin;
+  11   1        result = 4 - p_key->count_ones;
+  12   1        p_key->count_ones -= p_key->key_window.b[0];
+  13   1        p_key->key_window.b[0]=0;
+  14   1        pin = (result >>7) & 1;
+  15   1        
+  16   1        return (bit)pin;
+  17   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    207    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

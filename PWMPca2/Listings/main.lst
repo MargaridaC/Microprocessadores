@@ -1,0 +1,153 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              04/27/2020 00:10:04 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REG51F380.H>
+   2          //#include <stdio.h>
+   3          #include "debounce.h"
+   4          
+   5          #define T0_QAUNTUM 250;
+   6          #define DEBOUNCE_TIME (24000/250)
+   7          #define RI1 0
+   8          #define TI1 1
+   9          
+  10          sbit P0_6 = (P0^6);
+  11          sbit P0_7 = (P0^7);
+  12          
+  13          bit FLOAD, FSET;
+  14          bit DKLOAD,DKLOAD_LAST;
+  15          bit DKSET,DKSET_LAST;
+  16          
+  17          virt_key_t key_set;
+  18          virt_key_t key_load;
+  19          
+  20          unsigned char debounce_vtime;
+  21          unsigned char DutyCycle = 5;
+  22          char letrinha = 0;
+  23          
+  24          void Timer0 ( void ) interrupt 1 {
+  25   1      
+  26   1        if(debounce_vtime-- == 0){
+  27   2          debounce_vtime = DEBOUNCE_TIME;
+  28   2          DKSET_LAST = DKSET;
+  29   2          DKSET = my_debounce(&key_set);
+  30   2          
+  31   2          DKLOAD_LAST = DKLOAD;
+  32   2          DKLOAD = my_debounce(&key_load);
+  33   2          
+  34   2          if(!DKLOAD && DKLOAD_LAST)
+  35   2            FLOAD = 1;
+  36   2          
+  37   2          if(!DKSET && DKSET_LAST)
+  38   2            FSET = 1;
+  39   2        }
+  40   1      }
+  41          
+  42          void getkey ()  interrupt 4{
+  43   1        char c;
+  44   1      
+  45   1        if (RI0 == 1) {
+  46   2          RI0 = 0;
+  47   2          c = SBUF0;
+  48   2          P2 = c;
+  49   2        }
+  50   1        if (TI0 == 1) {
+  51   2        }
+  52   1      } 
+  53          
+  54          
+C51 COMPILER V9.60.0.0   MAIN                                                              04/27/2020 00:10:04 PAGE 2   
+
+  55          void Init()
+  56          {
+  57   1          PCA0MD    = 0x00;
+  58   1          FLSCL     = 0x90;
+  59   1          CLKSEL    = 0x03;
+  60   1          PCA0CN    = 0x40; 
+  61   1          PCA0CPM0  = 0x42; 
+  62   1          
+  63   1          PCA0CPL0  = DutyCycle;
+  64   1          PCA0CPH0  = DutyCycle;
+  65   1      
+  66   1          XBR0      = 0x01;
+  67   1          XBR1      = 0x41;
+  68   1        
+  69   1          TMOD      = 0x22;
+  70   1          CKCON     = 0X0C;
+  71   1          TH1       = 0x30;
+  72   1          SCON0     = 0X10;
+  73   1        
+  74   1          EIE1      = 0x10;
+  75   1          EIP1      = 0x10;
+  76   1        
+  77   1          debounce_vtime = DEBOUNCE_TIME;
+  78   1          TH0       =   -T0_QAUNTUM;
+  79   1          TL0       =   -T0_QAUNTUM;
+  80   1          IE        =   0x92;
+  81   1          TR0       =   1;
+  82   1          TI0       =   1;
+  83   1          TR1       =   1;
+  84   1          
+  85   1          EA        = 1;
+  86   1          
+  87   1          key_set.key_window.window = 0x00ff;
+  88   1          key_set.count_ones=8;
+  89   1          key_set.bit_offset = 6;
+  90   1      
+  91   1          key_load.key_window.window = 0x00ff;
+  92   1          key_load.count_ones=8;
+  93   1          key_load.bit_offset = 7;
+  94   1          
+  95   1          DKLOAD=1;
+  96   1          DKLOAD_LAST=1;
+  97   1          
+  98   1          DKSET = 1;
+  99   1          DKSET_LAST = 1;
+ 100   1          
+ 101   1          P2 = 0;
+ 102   1      }
+ 103          
+ 104          
+ 105          
+ 106          
+ 107          void main( void ) {
+ 108   1          
+ 109   1          Init();
+ 110   1          while(1) {
+ 111   2            if(FLOAD) {// || letrinha == 'M') {
+ 112   3              DutyCycle -= 10;
+ 113   3              FLOAD = 0;
+ 114   3            }
+ 115   2            
+ 116   2            else if(FSET) {// || letrinha == 'm') {
+C51 COMPILER V9.60.0.0   MAIN                                                              04/27/2020 00:10:04 PAGE 3   
+
+ 117   3              DutyCycle += 10;
+ 118   3              FSET = 0;
+ 119   3            }
+ 120   2            if (PCA0CPH0 != DutyCycle) {
+ 121   3              PCA0CPH0 = DutyCycle;
+ 122   3              //printf("%c", DutyCycle);//putchar(DutyCycle);//
+ 123   3            }
+ 124   2          }
+ 125   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    267    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     12    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      6    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

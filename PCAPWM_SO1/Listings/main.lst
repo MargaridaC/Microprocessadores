@@ -1,0 +1,149 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              05/04/2020 10:56:40 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REG51F380.H>
+   2          #include <stdio.h>
+   3          #include "debounce.h"
+   4          #include "UART.h"
+   5          
+   6          #define T0_QAUNTUM 250;
+   7          #define DEBOUNCE_TIME (24000/250)
+   8          #define RI1 0
+   9          #define TI1 1
+  10          
+  11          bit FLOAD, FSET;
+*** ERROR C132 IN LINE 11 OF main.c: 'FLOAD': not in formal parameter list
+*** ERROR C132 IN LINE 11 OF main.c: 'FSET': not in formal parameter list
+  12          bit DKLOAD,DKLOAD_LAST;
+*** ERROR C132 IN LINE 12 OF main.c: 'DKLOAD': not in formal parameter list
+*** ERROR C132 IN LINE 12 OF main.c: 'DKLOAD_LAST': not in formal parameter list
+  13          bit DKSET,DKSET_LAST;
+*** ERROR C132 IN LINE 13 OF main.c: 'DKSET': not in formal parameter list
+*** ERROR C132 IN LINE 13 OF main.c: 'DKSET_LAST': not in formal parameter list
+  14          
+  15          virt_key_t key_set;
+*** ERROR C132 IN LINE 15 OF main.c: 'key_set': not in formal parameter list
+  16          virt_key_t key_load;
+*** ERROR C132 IN LINE 16 OF main.c: 'key_load': not in formal parameter list
+  17          
+  18          unsigned char debounce_vtime;
+*** ERROR C132 IN LINE 18 OF main.c: 'debounce_vtime': not in formal parameter list
+  19          
+  20          
+  21          void Timer0 ( void ) interrupt 1 {
+*** ERROR C132 IN LINE 21 OF main.c: 'Timer0': not in formal parameter list
+*** ERROR C141 IN LINE 21 OF main.c: syntax error near 'interrupt', expected ';'
+  22          
+  23            if(debounce_vtime-- == 0){
+  24              debounce_vtime = DEBOUNCE_TIME;
+*** ERROR C244 IN LINE 24 OF main.c: 'debounce_vtime': can't initialize, bad type or class
+*** ERROR C132 IN LINE 24 OF main.c: 'debounce_vtime': not in formal parameter list
+  25              DKSET_LAST = DKSET;
+*** ERROR C244 IN LINE 25 OF main.c: 'DKSET_LAST': can't initialize, bad type or class
+*** ERROR C202 IN LINE 25 OF main.c: 'DKSET': undefined identifier
+*** ERROR C132 IN LINE 25 OF main.c: 'DKSET_LAST': not in formal parameter list
+  26              DKSET = my_debounce(&key_set);
+*** ERROR C244 IN LINE 26 OF main.c: 'DKSET': can't initialize, bad type or class
+*** ERROR C202 IN LINE 26 OF main.c: 'key_set': undefined identifier
+*** ERROR C132 IN LINE 26 OF main.c: 'DKSET': not in formal parameter list
+  27              
+  28              DKLOAD_LAST = DKLOAD;
+*** ERROR C244 IN LINE 28 OF main.c: 'DKLOAD_LAST': can't initialize, bad type or class
+*** ERROR C202 IN LINE 28 OF main.c: 'DKLOAD': undefined identifier
+*** ERROR C132 IN LINE 28 OF main.c: 'DKLOAD_LAST': not in formal parameter list
+  29              DKLOAD = my_debounce(&key_load);
+*** ERROR C244 IN LINE 29 OF main.c: 'DKLOAD': can't initialize, bad type or class
+*** ERROR C202 IN LINE 29 OF main.c: 'key_load': undefined identifier
+*** ERROR C132 IN LINE 29 OF main.c: 'DKLOAD': not in formal parameter list
+C51 COMPILER V9.60.0.0   MAIN                                                              05/04/2020 10:56:40 PAGE 2   
+
+  30              
+  31              if(!DKLOAD && DKLOAD_LAST)
+*** ERROR C141 IN LINE 31 OF main.c: syntax error near 'if', expected 'hdata'
+*** ERROR C141 IN LINE 31 OF main.c: syntax error near '!', expected 'hdata'
+*** ERROR C129 IN LINE 31 OF main.c: missing ';' before '&&'
+  32                FLOAD = 1;
+  33              
+  34              if(!DKSET && DKSET_LAST)
+  35                FSET = 1;
+  36            }
+  37          }
+  38          
+  39          
+  40          void Init()
+  41          {
+  42              PCA0MD    = 0x00;
+  43              FLSCL     = 0x90;
+  44              CLKSEL    = 0x03;
+  45              PCA0CN    = 0x40; 
+  46              PCA0CPM0  = 0x42; 
+  47              
+  48              PCA0CPL0  = 5;
+  49              PCA0CPH0  = 5;
+  50          
+  51              XBR0      = 0x01;
+  52              XBR1      = 0x41;
+  53            
+  54              TMOD      = 0x22;
+  55              CKCON     = 0X0C;
+  56              TH1       = 0x30;
+  57              SCON0     = 0X10;
+  58            
+  59              EIE1      = 0x10;
+  60              EIP1      = 0x10;
+  61            
+  62              debounce_vtime = DEBOUNCE_TIME;
+  63              TH0       =   -T0_QAUNTUM;
+  64              TL0       =   -T0_QAUNTUM;
+  65              IE        =   0x92;
+  66              TR0       =   1;
+  67              TI0       =   1;
+  68              TR1       =   1;
+  69              
+  70              EA        = 1;
+  71              
+  72              key_set.key_window.window = 0x00ff;
+  73              key_set.count_ones=8;
+  74              key_set.bit_offset = 6;
+  75          
+  76              key_load.key_window.window = 0x00ff;
+  77              key_load.count_ones=8;
+  78              key_load.bit_offset = 7;
+  79              
+  80              DKLOAD=1;
+  81              DKLOAD_LAST=1;
+  82              
+  83              DKSET = 1;
+  84              DKSET_LAST = 1;
+  85              
+  86              Reset();
+  87          }
+  88          
+C51 COMPILER V9.60.0.0   MAIN                                                              05/04/2020 10:56:40 PAGE 3   
+
+  89          
+  90          void main( void ) {
+  91            
+  92              Init();
+  93              while(1) {
+  94                if(FLOAD) {
+  95                  DutyChange(-1, 1);
+  96                  FLOAD = 0;
+  97                }
+  98                else if(FSET) {
+  99                  DutyChange(1, 1);
+ 100                  FSET = 0;
+ 101                }
+ 102                
+ 103                encode();
+ 104              }
+ 105          }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  28 ERROR(S)

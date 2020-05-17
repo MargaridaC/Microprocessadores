@@ -1,0 +1,179 @@
+C51 COMPILER V9.60.0.0   DD                                                                03/22/2020 01:42:02 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE DD
+OBJECT MODULE PLACED IN .\Objects\dd.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE dd.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\dd.lst
+                    -) TABS(2) OBJECT(.\Objects\dd.obj)
+
+line level    source
+
+   1          #include <REG51F380.H>
+   2          #include <stdio.h>
+   3          
+   4            const char code array_digit[] = {0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90, 0x88, 0x83, 
+             -0xC6, 0xA1, 0x86, 0x8E};
+   5          
+   6            int data index = 0;
+   7            #define ALEN (sizeof(array_digit))
+   8              
+   9            bit PB1_state = 0;
+  10            bit PB1_state_N = 0;
+  11            bit PB2_state = 0;
+  12            bit PB2_state_N = 0;
+  13          
+  14            /*bits de utilizador*/
+  15            sbit P0_7 = (P0^7);
+  16            sbit P0_6 = (P0^6);
+  17            
+  18          /* Fun??o macro para fazer a mascara e atribuir o valor a ser colocado no disp*/
+  19          #define M_IMP(x, y)\
+  20          y = y & (ALEN-1);\
+  21          P2 = x[y];
+  22          //printf("%d\n", y);
+  23          
+  24          void Oscillator_Init()
+  25          //Inicializa o micro a 48MHz
+  26          {
+  27   1        XBR1  =   0x40;
+  28   1        PCA0MD  = 0;
+  29   1        FLSCL   = 0x90;
+  30   1        CLKSEL  = 0x03;
+  31   1      }
+  32          
+  33          void Timer0_Init()
+  34            //Inicializa o timer 0:
+  35            //sysclk = 48MHz ; prescale = 48; frequencia do rel?gio = 1MHz
+  36          {
+  37   1      
+  38   1        TMOD  =   TMOD  | 0x02;   /*Timer 0 em modo 8 bit auto-reaload*/
+  39   1        CKCON =   CKCON | 0x02;   /*Define a frequ?ncia do timer*/
+  40   1        TH0   =   -250;           /*Vai contar 250 us*/
+  41   1        TL0   =   -250;
+  42   1        IE      = 0x82;   /*Enable ? interrup??o do timer 0*/
+  43   1        TR0   = 1;
+  44   1      }
+  45          
+  46          void ISR_TIMER0() interrupt 1 using 2
+  47          {
+  48   1        static int data contador = 0;
+  49   1        static unsigned int d_PB1 = 0;  //acho que posso trocar o int por um char
+  50   1        static unsigned int d_PB2 = 0;
+  51   1        PB1_state_N = PB1_state;
+  52   1        PB2_state_N = PB2_state;
+  53   1        
+C51 COMPILER V9.60.0.0   DD                                                                03/22/2020 01:42:02 PAGE 2   
+
+  54   1      
+  55   1        
+  56   1        
+  57   1        if(++contador == 20)  //40
+  58   1        {
+  59   2          contador = 0;
+  60   2              if (P0_7 == 0)
+  61   2              {
+  62   3                if (d_PB1++ == 0x0F) // 0x0F
+  63   3                {
+  64   4                  d_PB1 = ~d_PB1 & (ALEN-1);
+  65   4                  PB1_state = 1;            /*Colocando aqui "1" invertemos a l?gica e agora se o PB1_state estiver a 1 o bu
+             -t?o est? pressionado*/
+  66   4                }
+  67   3                else
+  68   3                {
+  69   4                  PB1_state = PB1_state;
+  70   4                }
+  71   3              }
+  72   2              else
+  73   2              {
+  74   3                if (d_PB1-- == 0x00)
+  75   3                {
+  76   4                  d_PB1 = ~d_PB1 & (ALEN-1);
+  77   4                  PB1_state = 0;            /*Colocando aqui "0" invertemos a l?gica e agora se o PB1_state estiver a 0 o bu
+             -t?o n?o est? pressionado*/
+  78   4                }
+  79   3                else
+  80   3                {
+  81   4                  PB1_state = PB1_state;
+  82   4                }
+  83   3              }
+  84   2              
+  85   2              /*_______butao PB2_______*/
+  86   2              if (P0_6 == 0)
+  87   2              {
+  88   3                if (d_PB2++ == 0x0F) // 0x0F
+  89   3                {
+  90   4                  d_PB2 = ~d_PB2 & (ALEN-1);
+  91   4                  PB2_state = 1;            /*Colocando aqui "1" invertemos a l?gica e agora se o PB1_state estiver a 1 o bu
+             -t?o est? pressionado*/
+  92   4                }
+  93   3                else
+  94   3                {
+  95   4                  PB2_state = PB2_state;
+  96   4                }
+  97   3              }
+  98   2              else
+  99   2              {
+ 100   3                if (d_PB2-- == 0x00)
+ 101   3                {
+ 102   4                  d_PB2 = ~d_PB2 & (ALEN-1);
+ 103   4                  PB2_state = 0;            /*Colocando aqui "0" invertemos a l?gica e agora se o PB1_state estiver a 0 o bu
+             -t?o n?o est? pressionado*/
+ 104   4                }
+ 105   3                else
+ 106   3                {
+ 107   4                  PB2_state = PB2_state;
+ 108   4                }
+ 109   3              }
+ 110   2        }
+ 111   1      }
+C51 COMPILER V9.60.0.0   DD                                                                03/22/2020 01:42:02 PAGE 3   
+
+ 112          
+ 113          
+ 114          void main (void)
+ 115          {
+ 116   1          bit update_disp = 0;
+ 117   1      
+ 118   1      //____Fun??es/Condi??es de inicializa??o do micro______ 
+ 119   1          Oscillator_Init();
+ 120   1          Timer0_Init();
+ 121   1          P2 = 0xC0;
+ 122   1        
+ 123   1      //___Testa, infinitamente, os bot?es (polling) para saber se incrementa ou decrementa o valor 
+ 124   1          while(1)
+ 125   1          {
+ 126   2            if (PB1_state && !PB1_state_N)            
+ 127   2            {
+ 128   3              while (!(PB1_state_N && !PB1_state)){}
+ 129   3              index ++;
+ 130   3              update_disp = 1;
+ 131   3            }
+ 132   2            if (PB2_state && !PB2_state_N)            
+ 133   2            {
+ 134   3              
+ 135   3              while (!(PB2_state_N && !PB2_state)){}
+ 136   3              index --;
+ 137   3              update_disp = 1;
+ 138   3            }   
+ 139   2            if(update_disp) //caso algum bot?o tenha sido pressionado atualiza o disp.
+ 140   2            {
+ 141   3              update_disp = 0;
+ 142   3              //Imprime_display(array_digit, index);
+ 143   3              M_IMP(array_digit, index);
+ 144   3            }
+ 145   2          }
+ 146   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    341    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      5    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

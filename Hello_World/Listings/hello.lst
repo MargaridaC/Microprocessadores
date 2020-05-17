@@ -1,0 +1,92 @@
+C51 COMPILER V9.60.0.0   HELLO                                                             02/17/2020 14:50:26 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE HELLO
+OBJECT MODULE PLACED IN .\Objects\hello.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE hello.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\hel
+                    -lo.lst) TABS(2) OBJECT(.\Objects\hello.obj)
+
+line level    source
+
+   1          #include <REG51F380.H>
+   2          #include <stdio.h>
+   3          
+   4          #define ALEN 16
+   5          sbit P0_7 = (P0^7);
+   6          sbit P0_6 = (P0^6);
+   7          char updateDisp = 1;
+   8          int index = 0;
+   9          
+  10          void print_u0(char* p_message);
+  11          
+  12          void Oscillator_Init() {
+  13   1        PCA0MD = 0;
+  14   1        XBR1 = 0x40;
+  15   1        FLSCL = 0x90;
+  16   1        CLKSEL = 0x03;
+  17   1      }
+  18          
+  19          void UART_Init() {
+  20   1        XBR0 = 0x01;
+  21   1        XBR1 = 0x40;
+  22   1        SCON0 = 0x10;
+  23   1        TMOD = 0x20;
+  24   1        CKCON = 0x08;
+  25   1        TH1 = 0x30;
+  26   1        TR1 = 1;
+  27   1        TI0 = 1;
+  28   1      }
+  29          
+  30          void imprime_Array(int *p_buff, int index) {
+  31   1        index = index & (ALEN-1);
+  32   1        P2 = 255-p_buff[index];
+  33   1      }
+  34          
+  35          int ler_caracter() {
+  36   1          if(RI0 == 1)
+  37   1              return SBUF0;
+  38   1          else
+  39   1              return -1;
+  40   1      }
+  41          
+  42          code int array_digits[16] = {63, 6, 91, 79, 102, 109, 125, 7, 127, 111, 119, 127, 57, 63, 121, 113};
+  43          int letra = 0;
+  44          
+  45          void main (void) {
+  46   1          Oscillator_Init();
+  47   1          UART_Init();
+  48   1          
+  49   1          while(1){
+  50   2              if(P0_7 == 0){
+  51   3                  while(P0_7 == 0){}
+  52   3                  index ++;
+  53   3                  updateDisp = 1;
+  54   3              }
+C51 COMPILER V9.60.0.0   HELLO                                                             02/17/2020 14:50:26 PAGE 2   
+
+  55   2              if(P0_6 == 0){
+  56   3                  while(P0_6 == 0){}
+  57   3                  index --;
+  58   3                  updateDisp = 1;
+  59   3              }
+  60   2              if(updateDisp) {
+  61   3                  updateDisp = 0;
+  62   3                  imprime_Array(array_digits, index);
+  63   3            }
+  64   2            letra = ler_caracter();
+  65   2          }
+  66   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    167    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

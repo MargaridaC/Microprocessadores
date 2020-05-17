@@ -1,0 +1,300 @@
+C51 COMPILER V9.60.0.0   ELOCK                                                             04/10/2020 16:52:07 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ELOCK
+OBJECT MODULE PLACED IN .\Objects\elock.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE elock.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\elo
+                    -ck.lst) TABS(2) OBJECT(.\Objects\elock.obj)
+
+line level    source
+
+   1          #include "elock.h"
+   2          #include <REG51F380.H>
+   3          
+   4          #define TENTATIVAS_COFRE 3
+   5          #define SIZE_CHAVES 4
+   6          #define QUANTOM1 2000
+   7          
+   8          sbit P2_7 = (P2^7);
+   9          
+  10          unsigned char code Numeros[]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8};//,0x80,0x90,0x88,0x83,0xc6,0xa1, 0
+             -x86,0x8e};
+  11          
+  12          state_t Astate;
+  13          state_t Nstate;
+  14          
+  15          pdata state_t Vstate;
+  16          char pdata Trys;
+  17          char pdata SEC_KEY[SIZE_CHAVES];
+  18          int pdata check;
+  19          
+  20          char USR_KEY[SIZE_CHAVES];
+  21          
+  22          bit PrimeiraVez;// = 1;
+  23          char index;// = 0;
+  24          char Digits;// = 0;
+  25          bit FLOAD;
+  26          bit FSET;
+  27          char tt;
+  28          int count1;
+  29          int count;
+  30          
+  31          int switch_erros=0;
+  32          
+  33          void Update_Checksum(bit arg) {       //arg = 0 so alterou ou o Trys ou o Vstate
+  34   1                                            //arg = 1 so alterou a SEC_KEY
+  35   1        if(arg == 0) {
+  36   2          check = check & 4095;             //limpar o espaço do checksum onde vou escrever
+  37   2          check += ((Trys+Vstate)<<12); 
+  38   2        }
+  39   1        else {
+  40   2          check = check & 61440;            //limpar o espaço do checksum onde vou escrever
+  41   2          check += (SEC_KEY[0]<<9);
+  42   2          check += (SEC_KEY[1]<<6);
+  43   2          check += (SEC_KEY[2]<<3);
+  44   2          check += SEC_KEY[3];
+  45   2        }
+  46   1        P3 = (check>>8) & 0xff;             //Por a parte alta do checksum num leds que tenho aqui para facil debug
+  47   1        P1 = check;                         //Por a parte baixa tambem em leds
+  48   1      }
+  49          
+  50          bit Check_Checksum() {
+  51   1        int checkTest = 0;
+  52   1        checkTest += ((Trys+Vstate)<<12); 
+  53   1        checkTest += (SEC_KEY[0]<<9);
+C51 COMPILER V9.60.0.0   ELOCK                                                             04/10/2020 16:52:07 PAGE 2   
+
+  54   1        checkTest += (SEC_KEY[1]<<6);
+  55   1        checkTest += (SEC_KEY[2]<<3);
+  56   1        checkTest += SEC_KEY[3];
+  57   1        if(check != checkTest)
+  58   1          return 1;
+  59   1        return 0;
+  60   1        
+  61   1      }
+  62          
+  63          void Timer1 ( void ) interrupt 3 {
+  64   1        count--;
+  65   1        if (count == 0) {
+  66   2          P2_7 = !P2_7;
+  67   2          count = QUANTOM1;
+  68   2          count1 --;
+  69   2          if((Astate == OPEN || Astate == ENCRYPT) && count1 == 0) {
+  70   3            TR1 = 0;
+  71   3            P2_7 = 1;
+  72   3            Astate = LOCKED;
+  73   3            PrimeiraVez = 1;
+  74   3            encode_fsm();
+  75   3          }
+  76   2          else if(Astate == FAIL && count1 == 0) {
+  77   3            TR1 = 0;
+  78   3            P2_7 = 1;
+  79   3          }
+  80   2        }
+  81   1      }
+  82          
+  83          
+  84          void Update_Disp(char t) {
+  85   1        P2 = Numeros[t];
+  86   1      }
+  87          
+  88          static char F_Recover ( void ) {
+  89   1        Nstate = LOCKED;
+  90   1        Trys = 0;
+  91   1        SEC_KEY[0] = 1;
+  92   1        SEC_KEY[1] = 2;
+  93   1        SEC_KEY[2] = 3;
+  94   1        SEC_KEY[3] = 4;
+  95   1        Update_Checksum(1);
+  96   1        return 1;
+  97   1      }
+  98          
+  99          
+ 100          static char F_Locked( void ) {
+ 101   1        char ret = 0;
+ 102   1        if (PrimeiraVez == 1) {
+ 103   2          Digits = 0;
+ 104   2          PrimeiraVez = 0;
+ 105   2          index = 0;
+ 106   2        } else if (FSET == 1) {
+ 107   2          index ++;
+ 108   2          index = index&(sizeof(Numeros)-1);
+ 109   2        } else {
+ 110   2          USR_KEY[Digits] = index;
+ 111   2          Digits ++;
+ 112   2          index = 0;
+ 113   2        }
+ 114   1        Update_Disp(index);
+ 115   1        //P1 = Numeros[SEC_KEY[Digits]];
+C51 COMPILER V9.60.0.0   ELOCK                                                             04/10/2020 16:52:07 PAGE 3   
+
+ 116   1        Nstate = LOCKED;
+ 117   1        
+ 118   1        if(Digits == 4) {
+ 119   2          Nstate = DECRYPT;
+ 120   2          ret = 1;
+ 121   2        }
+ 122   1        return ret;
+ 123   1      }
+ 124          
+ 125          
+ 126          static char F_Decrypt( void ) {
+ 127   1        char j;
+ 128   1        char t = 0;
+ 129   1        for(j = 0 ;j < SIZE_CHAVES; j++)
+ 130   1          if(USR_KEY[j] != SEC_KEY[j])
+ 131   1            t ++;
+ 132   1      
+ 133   1        if (t == 0)
+ 134   1          Nstate = OPEN;
+ 135   1        else
+ 136   1          Nstate = FAIL;
+ 137   1        
+ 138   1        return 1;
+ 139   1      }
+ 140          
+ 141          
+ 142          static char F_Fail() {
+ 143   1        Trys ++;
+ 144   1        tt = 0;
+ 145   1        if(Trys <= TENTATIVAS_COFRE-1) {//Locked + Delay
+ 146   2          for (tt = 0; tt<Trys ; tt++) {
+ 147   3            P2 = 0x8e;//Numeros[15];
+ 148   3            TR1 = 1;
+ 149   3            count = QUANTOM1;
+ 150   3            count1 = 10;
+ 151   3            Nstate = LOCKED;
+ 152   3            while (TR1 == 1);
+ 153   3          }
+ 154   2        } else {
+ 155   2          Nstate = BLOCKED;
+ 156   2        }
+ 157   1        PrimeiraVez = 1;
+ 158   1        return 1;
+ 159   1      }
+ 160          
+ 161          
+ 162          static char F_Blocked ( void ) {
+ 163   1        P2 = 0;
+ 164   1        while(Vstate != RECOVERY) {
+ 165   2          if (P0_6 == 0 && P0_7 == 0)
+ 166   2            Vstate = RECOVERY;
+ 167   2        }
+ 168   1        return 1;
+ 169   1      }
+ 170          
+ 171          
+ 172          static char F_Open( void ){
+ 173   1        Astate = ENCRYPT;
+ 174   1        TR1 = 1;
+ 175   1        Trys = 0;
+ 176   1        P2 = Numeros[0];
+ 177   1        count = QUANTOM1;
+C51 COMPILER V9.60.0.0   ELOCK                                                             04/10/2020 16:52:07 PAGE 4   
+
+ 178   1        count1 = 10;
+ 179   1        return 0;
+ 180   1      }
+ 181          
+ 182          
+ 183          static char F_Encrypt( void ) {
+ 184   1        char ret = 0, ch = 0;
+ 185   1        if (PrimeiraVez == 1) {
+ 186   2          Digits = 0;
+ 187   2          PrimeiraVez = 0;
+ 188   2          index = 0;
+ 189   2        } else if (FSET == 1) {
+ 190   2          index ++;
+ 191   2          index = index&(sizeof(Numeros)-1);
+ 192   2        }
+ 193   1        else {
+ 194   2          Digits ++;
+ 195   2          USR_KEY[Digits-1] = index;
+ 196   2          index = 0;
+ 197   2        }
+ 198   1        P3 = Numeros[USR_KEY[Digits]];
+ 199   1        Update_Disp(index);
+ 200   1        Nstate = ENCRYPT;
+ 201   1        if (Digits == 4)
+ 202   1        {
+ 203   2          char i;
+ 204   2          for (i = 0; i < SIZE_CHAVES; i++)
+ 205   2            SEC_KEY[i] = USR_KEY[i];
+ 206   2          Update_Checksum(1);
+ 207   2          Nstate = LOCKED;
+ 208   2          ret = 1;
+ 209   2        }
+ 210   1        return ret;
+ 211   1      }
+ 212          
+ 213          
+ 214          void init_fsm(void){
+ 215   1        if(Check_Checksum())
+ 216   1          Vstate = BLOCKED; 
+ 217   1        
+ 218   1          //Vstate = 0;
+ 219   1          Astate = Vstate;
+ 220   1          Nstate = Vstate;
+ 221   1          
+ 222   1          Trys        = 0;
+ 223   1          PrimeiraVez = 1;    //KLO
+ 224   1          index       = 0;
+ 225   1          Digits      = 0;
+ 226   1          
+ 227   1          FSET        = 0;
+ 228   1          FLOAD       = 0;
+ 229   1      }
+ 230          
+ 231          
+ 232          void encode_fsm(void){
+ 233   1      
+ 234   1        char ret = 1;
+ 235   1        Vstate = Astate;
+ 236   1        Update_Checksum(0);
+ 237   1        while(ret) {
+ 238   2          //P1 = Numeros[Astate];
+ 239   2          switch (Astate) {
+C51 COMPILER V9.60.0.0   ELOCK                                                             04/10/2020 16:52:07 PAGE 5   
+
+ 240   3              case RECOVERY:  ret = F_Recover();
+ 241   3                              break;
+ 242   3              case LOCKED:    ret = F_Locked();
+ 243   3                              break;
+ 244   3              case DECRYPT:   ret = F_Decrypt();
+ 245   3                              break;
+ 246   3              case FAIL:      ret = F_Fail();
+ 247   3                              break;
+ 248   3              case BLOCKED:   ret = F_Blocked();
+ 249   3                              break;
+ 250   3              case OPEN:      ret = F_Open();
+ 251   3                              break;
+ 252   3              case ENCRYPT:   ret = F_Encrypt();
+ 253   3                              break;
+ 254   3              
+ 255   3              default:
+ 256   3                switch_erros++;
+ 257   3                break;
+ 258   3            }
+ 259   2          
+ 260   2            if(ret){
+ 261   3              Astate = Nstate;
+ 262   3              Vstate = Astate;
+ 263   3              Update_Checksum(0);
+ 264   3              PrimeiraVez = 1;
+ 265   3            }
+ 266   2          }
+ 267   1        }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1174    ----
+   CONSTANT SIZE    =      8    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =      8    ----
+   DATA SIZE        =     25    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      4    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

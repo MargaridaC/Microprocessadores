@@ -1,0 +1,75 @@
+C51 COMPILER V9.60.0.0   INIT                                                              05/11/2020 11:36:17 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE INIT
+OBJECT MODULE PLACED IN .\Objects\init.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE init.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\init
+                    -.lst) TABS(2) OBJECT(.\Objects\init.obj)
+
+line level    source
+
+   1          #pragma large
+   2          #include <REG51F380.H>
+   3          #include "buttons.h"
+   4          
+   5          #define CPS1 2
+   6          
+   7          void Init()
+   8          {
+   9   1        PCA0MD  = 0x00;
+  10   1        PCA0MD = (1<<CPS1); //010
+  11   1      
+  12   1        FLSCL     = 0x90;
+  13   1        CLKSEL    = 0x03;
+  14   1      
+  15   1        PCA0CPM0  = 0x42;
+  16   1      
+  17   1        PCA0CPL0  = 5;
+  18   1        PCA0CPH0  = 5;
+  19   1      
+  20   1        XBR0    = 0x01;
+  21   1        XBR1    = 0x41;
+  22   1      
+  23   1        TMOD      = 0x22;
+  24   1        CKCON     = 0X0C;
+  25   1        TH1       = 0x30;
+  26   1        SCON0     = 0X10;
+  27   1      
+  28   1        EIE1      = 0x10;
+  29   1        EIP1      = 0x10;
+  30   1      
+  31   1        TL0       = -10;
+  32   1        TH0       = -10;
+  33   1      
+  34   1        TMR2CN  = 0x04;
+  35   1        TMR2RLL = -0xFF;
+  36   1        TMR2L   = -0xFF;
+  37   1        TMR2RLH = -0xFF;
+  38   1        TMR2H   = -0xFF;
+  39   1      
+  40   1        IE        =   0xB0;//10110000
+  41   1        TR0       =   1;
+  42   1        TI0       =   1;
+  43   1        TR1       =   1;
+  44   1        TR2       =   1;
+  45   1      
+  46   1        PCA0CN    = 0x40;
+  47   1        EA        = 1;
+  48   1      
+  49   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     83    ----
+   CONSTANT SIZE    =   ----    ----
+C51 COMPILER V9.60.0.0   INIT                                                              05/11/2020 11:36:17 PAGE 2   
+
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

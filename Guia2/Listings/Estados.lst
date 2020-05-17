@@ -1,0 +1,53 @@
+C51 COMPILER V9.60.0.0   ESTADOS                                                           03/21/2020 23:44:00 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ESTADOS
+OBJECT MODULE PLACED IN .\Objects\Estados.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Estados.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\E
+                    -stados.lst) TABS(2) OBJECT(.\Objects\Estados.obj)
+
+line level    source
+
+   1          #define RECOVERY 0
+   2          #define LOCKED 1
+   3          #define DECRYPT 2
+   4          #define FAIL 3
+   5          #define BLOCKED 4
+   6          #define OPEN 5
+   7          #define ENCRYPT 6
+   8          
+   9          #define TENTATIVAS_COFRE 4
+  10          
+  11          extern char idata Astate;
+  12          extern char idata Nstate;
+  13          extern char idata Vstate;
+  14          extern char idata Trys;
+  15          extern char i;
+  16          extern bit SaltaLBotoes;    //KLL
+  17          
+  18          
+  19          void F_Fail() {
+  20   1        Trys ++;
+  21   1        if(Trys <= TENTATIVAS_COFRE-1) {//Locked + Delay
+  22   2          for(i = 0; i < Trys; i++)
+  23   2            ;//Delay(5);
+  24   2          Nstate = LOCKED;
+  25   2        }
+  26   1        else
+  27   1          Nstate = BLOCKED;
+  28   1        SaltaLBotoes = 1;   
+  29   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     59    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

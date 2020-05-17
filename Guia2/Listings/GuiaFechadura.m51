@@ -1,0 +1,1038 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    03/30/2020  14:24:28  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\Guia2.obj, .\Objects\state.obj TO .\Objects\GuiaFechadura PRINT (.\Listings\GuiaFe
+>> chadura.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\Guia2.obj (GUIA2)
+  .\Objects\state.obj (STATE)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CCASE)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\GuiaFechadura (GUIA2)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0005H     UNIT         ?DT?GUIA2
+            DATA    000DH     0005H     UNIT         ?DT?STATE
+            DATA    0012H     0002H     UNIT         ?DT?F_DECRYPT?STATE
+            DATA    0014H     0001H     UNIT         ?DT?_UPDATE_DISP?STATE
+                    0015H     000BH                  *** GAP ***
+            BIT     0020H.0   0000H.7   UNIT         ?BI?GUIA2
+            BIT     0020H.7   0000H.7   UNIT         ?BI?STATE
+                    0021H.6   0000H.2                *** GAP ***
+            IDATA   0022H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     07F2H                  *** GAP ***
+            CODE    0800H     00D9H     UNIT         ?PR?MAIN?GUIA2
+            CODE    08D9H     0090H     UNIT         ?PR?TIMER0?GUIA2
+            CODE    0969H     008CH     UNIT         ?C_C51STARTUP
+            CODE    09F5H     0083H     UNIT         ?PR?F_ENCRYPT?STATE
+            CODE    0A78H     005CH     UNIT         ?PR?F_LOCKED?STATE
+            CODE    0AD4H     0057H     UNIT         ?PR?F_FAIL?STATE
+            CODE    0B2BH     004BH     UNIT         ?PR?F_DECRYPT?STATE
+            CODE    0B76H     003BH     UNIT         ?C_INITSEG
+            CODE    0BB1H     0026H     UNIT         ?C?LIB_CODE
+            CODE    0BD7H     0023H     UNIT         ?PR?F_OPEN?STATE
+            CODE    0BFAH     0021H     UNIT         ?PR?INIT_DEVICE?GUIA2
+            CODE    0C1BH     0019H     UNIT         ?PR?_UPDATE_DISP?STATE
+            CODE    0C34H     0017H     UNIT         ?PR?F_BLOCKED?STATE
+            CODE    0C4BH     0011H     UNIT         ?PR?LE_BOTOES?GUIA2
+            CODE    0C5CH     0010H     UNIT         ?CO?GUIA2
+            CODE    0C6CH     0010H     UNIT         ?CO?STATE
+            CODE    0C7CH     000BH     UNIT         ?PR?F_RECOVER?STATE
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 2
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\GuiaFechadura (GUIA2)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?GUIA2
+  +--> ?C_INITSEG
+
+?PR?MAIN?GUIA2
+  +--> ?PR?INIT_DEVICE?GUIA2
+  +--> ?PR?LE_BOTOES?GUIA2
+  +--> ?CO?GUIA2
+  +--> ?PR?F_RECOVER?STATE
+  +--> ?PR?F_LOCKED?STATE
+  +--> ?PR?F_DECRYPT?STATE
+  +--> ?PR?F_FAIL?STATE
+  +--> ?PR?F_BLOCKED?STATE
+  +--> ?PR?F_OPEN?STATE
+  +--> ?PR?F_ENCRYPT?STATE
+
+?PR?F_LOCKED?STATE
+  +--> ?PR?_UPDATE_DISP?STATE
+  +--> ?CO?STATE
+
+?PR?_UPDATE_DISP?STATE
+  +--> ?CO?STATE
+
+?PR?F_FAIL?STATE
+  +--> ?CO?STATE
+
+?PR?F_BLOCKED?STATE
+  +--> ?CO?STATE
+
+?PR?F_ENCRYPT?STATE
+  +--> ?CO?STATE
+  +--> ?PR?_UPDATE_DISP?STATE
+
+
+
+UNRESOLVED EXTERNAL SYMBOLS:
+   ASTATE
+   COUNT
+   COUNT1
+   NSTATE
+   SEC_KEY
+   TRYS
+   TT
+   USR_KEY
+   VSTATE
+
+
+
+IGNORED SYMBOLS:
+   CLICABOTOES
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 3
+
+
+   DIGITS
+   I
+   INDEX
+   KLICKLOAD
+   KLICKSET
+   NUMEROS
+   PB1B
+   PB1C
+   PB2B
+   PB2C
+   PRIMEIRAVEZ
+   VALID
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\GuiaFechadura (GUIA2)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        GUIA2
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:0008H         PUBLIC        PB1C
+  D:0009H         PUBLIC        PB2C
+  D:00E8H         PUBLIC        ADC0CN
+  D:00A8H         PUBLIC        IE
+  B:0080H.6       PUBLIC        P0_6
+  B:0080H.7       PUBLIC        P0_7
+  D:00D9H         PUBLIC        PCA0MD
+  D:00D8H         PUBLIC        PCA0CN
+  B:00A0H.7       PUBLIC        P2_7
+  D:00B8H         PUBLIC        IP
+  D:000AH         PUBLIC        index
+  D:00E1H         PUBLIC        XBR0
+  B:0020H.0       PUBLIC        KLICKSet
+  D:00E2H         PUBLIC        XBR1
+  D:00C0H         PUBLIC        SMB0CN
+  B:0020H.1       PUBLIC        PB1b
+  D:00C0H         PUBLIC        SMB1CN
+  C:0800H         PUBLIC        main
+  B:0020H.2       PUBLIC        PB2b
+  D:00F8H         PUBLIC        SPI0CN
+  C:08D9H         PUBLIC        Timer0
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        TMR2CN
+  D:00C8H         PUBLIC        TMR5CN
+  D:00A9H         PUBLIC        CLKSEL
+  C:0C4BH         PUBLIC        le_botoes
+  C:0BFAH         PUBLIC        Init_Device
+  D:008CH         PUBLIC        TH0
+  B:0020H.3       PUBLIC        ClicaBotoes
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 4
+
+
+  D:0098H         PUBLIC        SCON0
+  D:000BH         PUBLIC        Digits
+  D:000CH         PUBLIC        i
+  C:0C5CH         PUBLIC        Numeros
+  D:008EH         PUBLIC        CKCON
+  B:0020H.4       PUBLIC        VALID
+  B:0020H.5       PUBLIC        KLICKLoad
+  B:0020H.6       PUBLIC        PrimeiraVez
+  D:00B6H         PUBLIC        FLSCL
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          INIT_DEVICE
+  C:0BFAH         LINE#         4
+  C:0BFAH         LINE#         5
+  C:0BFAH         LINE#         6
+  C:0BFDH         LINE#         7
+  C:0C00H         LINE#         8
+  C:0C03H         LINE#         10
+  C:0C06H         LINE#         11
+  C:0C09H         LINE#         13
+  C:0C0CH         LINE#         14
+  C:0C0FH         LINE#         15
+  C:0C12H         LINE#         16
+  C:0C15H         LINE#         17
+  C:0C18H         LINE#         18
+  C:0C1AH         LINE#         19
+  -------         ENDPROC       INIT_DEVICE
+  -------         PROC          TIMER0
+  C:08D9H         LINE#         22
+  C:08E6H         LINE#         24
+  C:08F5H         LINE#         25
+  C:08FDH         LINE#         26
+  C:0903H         LINE#         27
+  C:0905H         LINE#         28
+  C:090DH         LINE#         29
+  C:0913H         LINE#         30
+  C:0913H         LINE#         31
+  C:0919H         LINE#         32
+  C:091DH         LINE#         33
+  C:091FH         LINE#         34
+  C:0921H         LINE#         35
+  C:0923H         LINE#         36
+  C:0923H         LINE#         37
+  C:0934H         LINE#         38
+  C:093CH         LINE#         39
+  C:0942H         LINE#         40
+  C:0944H         LINE#         41
+  C:094CH         LINE#         42
+  C:0952H         LINE#         43
+  C:0952H         LINE#         44
+  C:0958H         LINE#         45
+  C:095AH         LINE#         46
+  C:095CH         LINE#         47
+  C:095EH         LINE#         48
+  C:095EH         LINE#         49
+  C:095EH         LINE#         50
+  -------         ENDPROC       TIMER0
+  -------         PROC          LE_BOTOES
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 5
+
+
+  C:0C4BH         LINE#         52
+  C:0C4BH         LINE#         81
+  C:0C4EH         LINE#         82
+  C:0C50H         LINE#         83
+  C:0C53H         LINE#         85
+  C:0C53H         LINE#         86
+  C:0C56H         LINE#         87
+  C:0C58H         LINE#         88
+  C:0C5BH         LINE#         90
+  C:0C5BH         LINE#         91
+  -------         ENDPROC       LE_BOTOES
+  -------         PROC          MAIN
+  C:0800H         LINE#         95
+  C:0800H         LINE#         96
+  C:0803H         LINE#         97
+  C:0807H         LINE#         98
+  C:080BH         LINE#         99
+  C:0813H         LINE#         100
+  C:081BH         LINE#         101
+  C:081FH         LINE#         102
+  C:0823H         LINE#         103
+  C:0827H         LINE#         104
+  C:082BH         LINE#         106
+  C:082BH         LINE#         107
+  C:082DH         LINE#         108
+  C:082FH         LINE#         109
+  C:0838H         LINE#         110
+  C:083DH         LINE#         112
+  C:0852H         LINE#         113
+  C:0854H         LINE#         115
+  C:0860H         LINE#         116
+  C:0868H         LINE#         117
+  C:086AH         LINE#         118
+  C:086AH         LINE#         120
+  C:0872H         LINE#         121
+  C:088AH         LINE#         123
+  C:08ABH         LINE#         124
+  C:08AEH         LINE#         125
+  C:08B1H         LINE#         126
+  C:08B4H         LINE#         127
+  C:08B7H         LINE#         128
+  C:08BAH         LINE#         129
+  C:08BDH         LINE#         130
+  C:08C0H         LINE#         131
+  C:08C3H         LINE#         132
+  C:08C6H         LINE#         133
+  C:08C9H         LINE#         134
+  C:08CCH         LINE#         135
+  C:08CFH         LINE#         136
+  C:08D2H         LINE#         137
+  C:08D5H         LINE#         138
+  C:08D5H         LINE#         139
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        GUIA2
+
+  -------         MODULE        STATE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 6
+
+
+  D:0080H         PUBLIC        P0
+  C:0C7CH         PUBLIC        F_Recover
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:0B2BH         PUBLIC        F_Decrypt
+  D:000DH         PUBLIC        PB1C
+  D:000EH         PUBLIC        PB2C
+  D:00E8H         PUBLIC        ADC0CN
+  D:00A8H         PUBLIC        IE
+  C:09F5H         PUBLIC        F_Encrypt
+  B:0080H.6       PUBLIC        P0_6
+  B:0080H.7       PUBLIC        P0_7
+  D:00D8H         PUBLIC        PCA0CN
+  B:00A0H.7       PUBLIC        P2_7
+  D:00B8H         PUBLIC        IP
+  D:000FH         PUBLIC        index
+  B:0020H.7       PUBLIC        KLICKSet
+  C:0AD4H         PUBLIC        F_Fail
+  D:00C0H         PUBLIC        SMB0CN
+  B:0021H.0       PUBLIC        PB1b
+  D:00C0H         PUBLIC        SMB1CN
+  B:0021H.1       PUBLIC        PB2b
+  D:00F8H         PUBLIC        SPI0CN
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        TMR2CN
+  C:0BD7H         PUBLIC        F_Open
+  D:00C8H         PUBLIC        TMR5CN
+  B:0021H.2       PUBLIC        ClicaBotoes
+  B:0088H.4       PUBLIC        TR0
+  C:0C1BH         PUBLIC        _Update_Disp
+  C:0C34H         PUBLIC        F_Blocked
+  D:0098H         PUBLIC        SCON0
+  D:0010H         PUBLIC        Digits
+  D:0011H         PUBLIC        i
+  C:0C6CH         PUBLIC        Numeros
+  B:0021H.3       PUBLIC        VALID
+  B:0021H.4       PUBLIC        KLICKLoad
+  B:0021H.5       PUBLIC        PrimeiraVez
+  D:00D0H         PUBLIC        PSW
+  C:0A78H         PUBLIC        F_Locked
+  -------         PROC          _UPDATE_DISP
+  D:0014H         SYMBOL        t
+  C:0C1BH         LINE#         5
+  C:0C1DH         LINE#         6
+  C:0C1DH         LINE#         7
+  C:0C33H         LINE#         8
+  -------         ENDPROC       _UPDATE_DISP
+  -------         PROC          F_RECOVER
+  C:0C7CH         LINE#         11
+  C:0C7CH         LINE#         12
+  C:0C80H         LINE#         13
+  C:0C82H         LINE#         14
+  C:0C86H         LINE#         15
+  -------         ENDPROC       F_RECOVER
+  -------         PROC          F_LOCKED
+  C:0A78H         LINE#         18
+  C:0A78H         LINE#         19
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 7
+
+
+  C:0A7BH         LINE#         20
+  C:0A7EH         LINE#         21
+  C:0A80H         LINE#         22
+  C:0A83H         LINE#         23
+  C:0A88H         LINE#         24
+  C:0A8AH         LINE#         25
+  C:0A8CH         LINE#         26
+  C:0A8EH         LINE#         27
+  C:0A96H         LINE#         28
+  C:0A99H         LINE#         29
+  C:0A99H         LINE#         30
+  C:0A9EH         LINE#         31
+  C:0ABAH         LINE#         32
+  C:0ABEH         LINE#         33
+  C:0AC0H         LINE#         34
+  C:0ACDH         LINE#         35
+  C:0ACFH         LINE#         36
+  C:0AD3H         LINE#         37
+  C:0AD3H         LINE#         38
+  -------         ENDPROC       F_LOCKED
+  -------         PROC          F_DECRYPT
+  -------         DO            
+  D:0012H         SYMBOL        j
+  D:0013H         SYMBOL        t
+  -------         ENDDO         
+  C:0B2BH         LINE#         41
+  C:0B2BH         LINE#         43
+  C:0B2EH         LINE#         44
+  C:0B43H         LINE#         45
+  C:0B57H         LINE#         46
+  C:0B5DH         LINE#         48
+  C:0B68H         LINE#         49
+  C:0B6AH         LINE#         50
+  C:0B6EH         LINE#         51
+  C:0B6FH         LINE#         52
+  C:0B71H         LINE#         53
+  C:0B75H         LINE#         54
+  C:0B75H         LINE#         55
+  -------         ENDPROC       F_DECRYPT
+  -------         PROC          F_FAIL
+  C:0AD4H         LINE#         58
+  C:0AD4H         LINE#         59
+  C:0AD7H         LINE#         60
+  C:0ADAH         LINE#         61
+  C:0AEEH         LINE#         62
+  C:0B01H         LINE#         63
+  C:0B09H         LINE#         64
+  C:0B0BH         LINE#         65
+  C:0B11H         LINE#         66
+  C:0B17H         LINE#         67
+  C:0B1AH         LINE#         68
+  C:0B1EH         LINE#         69
+  C:0B22H         LINE#         70
+  C:0B24H         LINE#         71
+  C:0B28H         LINE#         72
+  C:0B28H         LINE#         73
+  C:0B2AH         LINE#         74
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 8
+
+
+  -------         ENDPROC       F_FAIL
+  -------         PROC          F_BLOCKED
+  C:0C34H         LINE#         77
+  C:0C34H         LINE#         78
+  C:0C3CH         LINE#         79
+  C:0C3EH         LINE#         80
+  C:0C3EH         LINE#         81
+  C:0C44H         LINE#         82
+  C:0C48H         LINE#         83
+  -------         ENDPROC       F_BLOCKED
+  -------         PROC          F_OPEN
+  C:0BD7H         LINE#         87
+  C:0BD7H         LINE#         88
+  C:0BDBH         LINE#         89
+  C:0BDDH         LINE#         90
+  C:0BDFH         LINE#         91
+  C:0BE3H         LINE#         92
+  C:0BE6H         LINE#         93
+  C:0BE9H         LINE#         94
+  C:0BEBH         LINE#         95
+  C:0BEDH         LINE#         96
+  C:0BF3H         LINE#         97
+  C:0BF9H         LINE#         98
+  C:0BF9H         LINE#         99
+  -------         ENDPROC       F_OPEN
+  -------         PROC          F_ENCRYPT
+  C:09F5H         LINE#         102
+  C:09F5H         LINE#         103
+  C:09F8H         LINE#         104
+  C:09FBH         LINE#         105
+  C:09FDH         LINE#         106
+  C:0A00H         LINE#         107
+  C:0A05H         LINE#         108
+  C:0A09H         LINE#         109
+  C:0A09H         LINE#         110
+  C:0A0BH         LINE#         111
+  C:0A13H         LINE#         112
+  C:0A16H         LINE#         113
+  C:0A16H         LINE#         114
+  C:0A32H         LINE#         115
+  C:0A37H         LINE#         116
+  C:0A3BH         LINE#         117
+  C:0A3DH         LINE#         118
+  C:0A4AH         LINE#         119
+  C:0A4AH         LINE#         120
+  C:0A5FH         LINE#         121
+  C:0A73H         LINE#         122
+  C:0A77H         LINE#         123
+  C:0A77H         LINE#         124
+  -------         ENDPROC       F_ENCRYPT
+  -------         ENDMOD        STATE
+
+  -------         MODULE        ?C?CCASE
+  C:0BB1H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 9
+
+
+    SYMBOL:  PRIMEIRAVEZ
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KLICKLOAD
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  VALID
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  I
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  DIGITS
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  CLICABOTOES
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  PB2B
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  PB1B
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  KLICKSET
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  INDEX
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  PB2C
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  PB1C
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  NUMEROS
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  SEC_KEY
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  COUNT
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 10
+
+
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  TRYS
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  VSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 08E7H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 08F6H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 08F8H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 08FCH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 08FEH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0900H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0906H
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 11
+
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0908H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 090CH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 090EH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0911H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0914H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0916H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 091AH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0926H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0935H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0937H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 093BH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 12
+
+
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 093DH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 093FH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0945H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0947H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 094BH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 094DH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0950H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0953H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0955H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TRYS
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0804H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  VSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0808H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  VSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 080CH
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 13
+
+
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0810H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  VSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0814H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0818H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  SEC_KEY
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 081CH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  SEC_KEY
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0820H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  SEC_KEY
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0824H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  SEC_KEY
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0828H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 083EH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0855H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0859H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0861H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 14
+
+
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0865H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 086BH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  VSTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 086FH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 0873H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ASTATE
+    MODULE:  .\Objects\Guia2.obj (GUIA2)
+    ADDRESS: 088BH
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  SEC_KEY
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  TRYS
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  USR_KEY
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  TT
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  VSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 15
+
+
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0C7DH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TRYS
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0C83H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  USR_KEY
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0A91H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  SEC_KEY
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0AA1H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0ABBH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0AD0H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  SEC_KEY
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B46H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  USR_KEY
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B4EH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B6BH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B72H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TRYS
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0AD5H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TT
+    MODULE:  .\Objects\state.obj (STATE)
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 16
+
+
+    ADDRESS: 0AD8H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TRYS
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0ADBH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TT
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0AEFH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TRYS
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0AF2H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TT
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0AFBH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B0CH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B0FH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B12H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B15H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B1BH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TT
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B1FH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0B25H
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 17
+
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  VSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0C45H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0BD8H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TRYS
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0BE0H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0BEEH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0BF1H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0BF4H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  COUNT1
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0BF7H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  USR_KEY
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0A0EH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  USR_KEY
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0A19H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0A38H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  USR_KEY
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0A62H
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  SEC_KEY
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/30/2020  14:24:28  PAGE 18
+
+
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0A6AH
+
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  NSTATE
+    MODULE:  .\Objects\state.obj (STATE)
+    ADDRESS: 0A74H
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 03D7H BYTE (47%) *
+******************************************************************************
+
+Program Size: data=23.6 xdata=0 code=1165
+LINK/LOCATE RUN COMPLETE.  97 WARNING(S),  13 ERROR(S)

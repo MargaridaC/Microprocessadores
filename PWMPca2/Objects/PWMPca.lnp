@@ -1,0 +1,4 @@
+".\Objects\main.obj",
+".\Objects\debounce.obj" 
+TO ".\Objects\PWMPca" 
+PRINT(".\Listings\PWMPca.m51") RAMSIZE(256) 
